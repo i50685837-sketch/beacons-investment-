@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Beacons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{--bg:#070b14;--card:#0f172a;--border:#1e293b;--green:#22c55e;--text:#e2e8f0;--muted:#94a3b8;--red:#ef4444}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Inter, sans-serif}
+  body{background:var(--bg);color:var(--text)} /* TEXT WHITE */
+  
+  .header{padding:20px 40px;background:var(--card);border-bottom:1px solid var(--border)}
+  .logo{font-size:24px;font-weight:800;color:var(--green)}
+  
+  .hero{height:90vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}
+  .hero h1{font-size:52px;margin-bottom:15px;color:var(--text)}
+  .hero h1 span{color:var(--green)}
+  .hero p{color:var(--muted);font-size:18px;max-width:500px;margin-bottom:30px}
+  
+  .cta-red{background:var(--red);color:#fff;padding:16px 40px;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:0.3s}
+  .cta-red:hover{background:#dc2626;transform:scale(1.05)}
+  
+  .features{padding:80px 20px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+  .feature{background:var(--card);border:1px solid var(--border);padding:30px;border-radius:16px}
+  .feature h3{color:var(--text);margin-bottom:10px}
+  .feature p{color:var(--muted)}
+  
+  .footer{text-align:center;padding:40px;color:var(--muted);border-top:1px solid var(--border)}
+  @media(max-width:900px){.features{grid-template-columns:1fr}.hero h1{font-size:36px}}
+</style>
+</head>
+<body>
+
+<div class="header"><div class="logo">BEACONS</div></div>
+
+<section class="hero">
+  <h1>Invest With <span>Beacons</span></h1>
+  <p>Start from Ksh 750. Grow your money with flexible investment plans.</p>
+  <a href="register.html" class="cta-red">Start Investing</a>
+</section>
+
+<section class="features">
+  <div class="feature"><h3>Flexible Plans</h3><p>Invest from Ksh 750 to Ksh 20,000. Choose what works for you.</p></div>
+  <div class="feature"><h3>Fast Withdrawals</h3><p>Get your money sent to M-Pesa quickly.</p></div>
+  <div class="feature"><h3>Secure</h3><p>Your account is protected with KYC and 2FA.</p></div>
+</section>
+
+<div class="footer"><p>© 2026 Beacons. Terms apply.</p></div>
+
+</body>
+</html>
