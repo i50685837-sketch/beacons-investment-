@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Beacons - Deposit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{--bg:#070b14;--card:#0f172a;--border:#1e293b;--green:#22c55e;--text:#e2e8f0;--muted:#94a3b8;--red:#ef4444;--yellow:#f59e0b}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Inter, sans-serif}
+  body{background:var(--bg);color:var(--text)}
+.header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0}
+.logo{font-size:22px;font-weight:800;color:var(--green)}
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:25px;height:3px;background:var(--text);border-radius:2px}
+.container{display:flex;gap:20px;padding:20px;max-width:1400px;margin:0 auto}
+.main{flex:1}
+.sidebar-right{width:280px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;height:fit-content;position:sticky;top:80px}
+.menu-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;margin-bottom:8px;cursor:pointer;color:var(--text);text-decoration:none}
+.menu-item:hover{background:rgba(34,197,94,0.1)}.menu-item.active{background:var(--green);color:#070b14;font-weight:600}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:25px;margin-bottom:25px}
+.form-group{margin-bottom:15px}.form-group label{display:block;margin-bottom:8px;color:var(--muted)}
+.form-group input{width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:12px;font-size:16px}
+.btn{background:var(--green);color:#070b14;padding:14px;border:none;border-radius:12px;font-weight:700;cursor:pointer;width:100%;font-size:16px}
+.btn:disabled{opacity:0.5}
+.info-box{background:rgba(34,197,94,0.1);border:1px dashed var(--green);padding:15px;border-radius:12px;margin-bottom:20px;text-align:center}
+.error{color:var(--red);font-size:13px;margin-top:5px}.success{color:var(--green);font-size:13px;margin-top:5px}
+  table{width:100%;border-collapse:collapse}th,td{padding:12px;text-align:left;border-bottom:1px solid var(--border)}
+  th{color:var(--muted);font-size:12px}.badge{padding:5px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.badge.success{background:rgba(34,197,94,0.2);color:var(--green)}.badge.pending{background:rgba(245,158,11,0.2);color:var(--yellow)}
+  @media(max-width:1100px){.container{flex-direction:column}.sidebar-right{position:fixed;right:-300px;top:0;height:100%;z-index:200;transition:right 0.3s}.sidebar-right.open{right:0}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">BEACONS</div>
+  <div class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></div>
+</div>
+
+<div class="container">
+  <div class="main">
+    <h2 style="margin-bottom:20px">💳 Deposit via MPESA</h2>
+
+    <div class="card">
+      <div class="info-box">
+        <h3>📱 STK PUSH</h3>
+        <p style="color:var(--muted)">Enter amount. MPESA prompt will come to your phone instantly</p>
+      </div>
+
+      <form id="depositForm">
+        <div class="form-group">
+          <label>MPESA Phone Number</label>
+          <input type="tel" id="phone" placeholder="07XXXXXXXX" required>
+        </div>
+        <div class="form-group">
+          <label>Amount Ksh</label>
+          <input type="number" id="amount" placeholder="Min 750" required>
+          <p class="error" id="depositError"></p>
+          <p class="success" id="depositSuccess"></p>
+        </div>
+        <button type="submit" class="btn" id="depositBtn">Deposit Now</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>📜 Deposit History</h3>
+      <div style="overflow-x:auto;margin-top:15px">
+        <table>
+          <thead><tr><th>Date</th><th>Phone</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody id="depositHistory"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar-right" id="sidebar">
+    <h3>MENU</h3>
+    <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
+    <a href="invest.html" class="menu-item">📈 Invest</a>
+    <a href="deposit.html" class="menu-item active">💳 Deposit</a>
+    <a href="withdraw.html" class="menu-item">💸 Withdraw</a>
+    <a href="history.html" class="menu-item">📜 Full History</a>
+    <a href="settings.html" class="menu-item">⚙️ Settings</a>
+    <hr style="border-color:var(--border);margin:15px 0">
+    <div class="menu-item" onclick="logout()">🚪 Logout</div>
+  </div>
+</div>
+
+<script>
+const MIN_DEPOSIT = 750;
+
+window.onload = () => {
+  loadHistory();
+  const user = JSON.parse(localStorage.getItem('user'));
+  if(user && user.phone) document.getElementById('phone').value = user.phone;
+}
+
+// STK PUSH
+document.getElementById('depositForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const phone = document.getElementById('phone').value.trim();
+  const amount = parseInt(document.getElementById('amount').value);
+  const errorEl = document.getElementById('depositError');
+  const successEl = document.getElementById('depositSuccess');
+  const btn = document.getElementById('depositBtn');
+  errorEl.innerText = ''; successEl.innerText = '';
+
+  if(!phone.match(/^0[17]\d{8}$/)){ errorEl.innerText = 'Enter valid 07XX or 01XX number'; return; }
+  if(amount < MIN_DEPOSIT){ errorEl.innerText = `Minimum deposit is Ksh ${MIN_DEPOSIT}`; return; }
+
+  const user = JSON.parse(localStorage.getItem('user'));
+  btn.disabled = true; btn.innerText = 'Sending Prompt...';
+
+  // CALL API YA STK PUSH
+  const res = await fetch('/api/deposit', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({userId: user.id, phone, amount})
+  });
+  const data = await res.json();
+
+  if(data.success){
+    successEl.innerText = `✅ STK Prompt sent to ${phone}. Check your phone and enter MPESA PIN`;
+    saveLocalDeposit(user.id, phone, amount); // save as pending
+    document.getElementById('amount').value = '';
+    setTimeout(loadHistory, 5000); // refresh after 5s
+  } else {
+    errorEl.innerText = data.message;
+  }
+  btn.disabled = false; btn.innerText = 'Deposit Now';
+});
+
+// SAVE LOCALLY FOR NOW
+function saveLocalDeposit(userId, phone, amount){
+  let deposits = JSON.parse(localStorage.getItem('deposits')) || [];
+  deposits.push({userId, phone, amount, status:'Pending', date:new Date()});
+  localStorage.setItem('deposits', JSON.stringify(deposits));
+}
+
+function loadHistory(){
+  const user = JSON.parse(localStorage.getItem('user'));
+  let deposits = JSON.parse(localStorage.getItem('deposits')) || [];
+  deposits = deposits.filter(d => d.userId === user.id).reverse().slice(0, 10);
+
+  const tbody = document.getElementById('depositHistory');
+  if(deposits.length === 0){
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted)">No deposits yet</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = deposits.map(d => `
+    <tr>
+      <td>${new Date(d.date).toLocaleString()}</td>
+      <td>${d.phone}</td>
+      <td style="color:var(--green)">+Ksh ${d.amount.toLocaleString()}</td>
+      <td><span class="badge ${d.status.toLowerCase()}">${d.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function logout(){ localStorage.clear(); window.location.href = 'login.html'; }
+</script>
+</body>
+  </html>
