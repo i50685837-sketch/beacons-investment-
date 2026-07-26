@@ -1,3 +1,15 @@
+const currentUser = JSON.parse(localStorage.getItem('beaconUser'));
+
+if(!currentUser){
+  alert('Please login first');
+  window.location = 'login.html';
+}
+
+let BALANCE = currentUser.balance;
+let investments = []; // Baadaye tutasave kwa server pia
+
+document.getElementById('balance').innerText = `Ksh ${BALANCE.toLocaleString()}`;
+
 // CONFIG
 let BALANCE = 0; // Real balance starts at 0
 const MIN_INVEST = 750;
