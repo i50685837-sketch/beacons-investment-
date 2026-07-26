@@ -16,14 +16,19 @@ function loadProfile(){
     active: JSON.parse(localStorage.getItem('beaconActive')) || 0
   };
 
+  function loadProfile(){
+  const user = JSON.parse(localStorage.getItem('beaconUser'));
+  if(!user) return window.location = 'login.html';
+
   document.getElementById('profileName').innerText = user.name;
   document.getElementById('profilePhone').innerText = user.phone;
   document.getElementById('avatar').innerText = user.name.charAt(0).toUpperCase();
-  document.getElementById('fullName').value = user.name === 'Guest User' ? '' : user.name;
-  document.getElementById('phone').value = user.phone === 'Not Set' ? '' : user.phone;
+  document.getElementById('fullName').value = user.name;
+  document.getElementById('phone').value = user.phone;
   document.getElementById('totalInvested').innerText = `Ksh ${user.invested.toLocaleString()}`;
   document.getElementById('totalEarned').innerText = `Ksh ${user.earned.toLocaleString()}`;
   document.getElementById('activePlans').innerText = user.active;
+  }
 }
 
 // SAVE PROFILE
