@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beacons Investment</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+    text-align:center;
+    color:#fff;
+
+    background:
+    linear-gradient(
+        rgba(15,15,15,.45),
+        rgba(0,90,70,.35),
+        rgba(0,0,0,.45)
+    ),
+    url("https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1600&q=80");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+}
+
+/* Top Title */
+header{
+    width:100%;
+    padding:35px 20px;
+}
+
+header h1{
+    font-size:42px;
+    font-weight:700;
+    text-shadow:0 3px 10px rgba(0,0,0,.5);
+}
+
+/* Middle */
+main{
+    width:90%;
+    max-width:700px;
+    animation:fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+main p{
+    font-size:22px;
+    line-height:1.8;
+    margin-bottom:40px;
+    text-shadow:0 2px 8px rgba(0,0,0,.7);
+}
+
+/* Button */
+.btn{
+    display:inline-block;
+    background:#e60023;
+    color:#fff;
+    padding:18px 50px;
+    border-radius:50px;
+    text-decoration:none;
+    font-size:20px;
+    font-weight:700;
+    transition:.3s;
+    box-shadow:0 8px 25px rgba(230,0,35,.45);
+}
+
+.btn:hover{
+    background:#ff1744;
+    transform:translateY(-5px);
+}
+
+/* Footer */
+footer{
+    width:100%;
+    padding:20px;
+    background:rgba(0,0,0,.35);
+    font-size:17px;
+}
+
+footer a{
+    color:#fff;
+    text-decoration:none;
+}
+
+@media(max-width:768px){
+
+header h1{
+    font-size:30px;
+}
+
+main p{
+    font-size:18px;
+}
+
+.btn{
+    width:85%;
+    padding:16px;
+    font-size:18px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Welcome to Beacons Investment</h1>
+</header>
+
+<main>
+
+<p>
+Convert your <strong>750</strong> into an opportunity to grow your wealth.<br><br>
+Create your account today and start investing with confidence.
+</p>
+
+<a href="register.html" class="btn">START INVESTING</a>
+
+</main>
+
+<footer>
+📧 <a href="mailto:beacons@gmail.com">beacons@gmail.com</a>
+</footer>
+
+</body>
+</html>
