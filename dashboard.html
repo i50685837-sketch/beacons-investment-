@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Beacons Investment Dashboard</title>
+
+<style>
+
+:root{
+--bg:#050b18;
+--card:#111827;
+--border:#263244;
+--green:#22c55e;
+--text:#e5e7eb;
+--muted:#94a3b8;
+}
+
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+
+body{
+background:var(--bg);
+color:var(--text);
+}
+
+
+
+.header{
+
+height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:20px;
+
+background:var(--card);
+border-bottom:1px solid var(--border);
+
+}
+
+
+
+.logo{
+
+font-size:24px;
+font-weight:bold;
+color:var(--green);
+
+}
+
+
+
+.hamburger{
+
+cursor:pointer;
+
+}
+
+
+.hamburger span{
+
+display:block;
+width:28px;
+height:3px;
+background:white;
+margin:5px;
+
+}
+
+
+
+.container{
+
+display:flex;
+gap:20px;
+padding:20px;
+
+}
+
+
+.main{
+
+flex:1;
+
+}
+
+
+
+.card{
+
+background:var(--card);
+border:1px solid var(--border);
+border-radius:20px;
+padding:20px;
+margin-bottom:20px;
+
+}
+
+
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+
+}
+
+
+
+.stat h3{
+
+color:var(--muted);
+
+}
+
+
+.stat h1{
+
+color:var(--green);
+margin-top:10px;
+
+}
+
+
+
+/* MENU */
+
+.sidebar{
+
+width:280px;
+background:var(--card);
+border-radius:20px;
+padding:20px;
+
+height:max-content;
+
+transition:.3s;
+
+}
+
+
+
+.menu{
+
+display:block;
+padding:12px;
+margin:8px 0;
+
+text-decoration:none;
+color:white;
+
+border-radius:10px;
+
+}
+
+
+
+.menu:hover{
+
+background:#1f2937;
+
+}
+
+
+
+table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+
+
+th,td{
+
+padding:12px;
+text-align:center;
+border-bottom:1px solid var(--border);
+
+}
+
+
+
+.profit{
+
+color:var(--green);
+font-weight:bold;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+
+.container{
+
+flex-direction:column;
+
+}
+
+
+
+.sidebar{
+
+position:fixed;
+right:-300px;
+top:80px;
+
+z-index:999;
+
+height:80%;
+
+}
+
+
+
+.sidebar.open{
+
+right:20px;
+
+}
+
+
+
+.stats{
+
+grid-template-columns:1fr;
+
+}
+
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+
+<div class="logo">
+🚨 BEACONS
+</div>
+
+
+<div class="hamburger" onclick="toggleMenu()">
+
+<span></span>
+<span></span>
+<span></span>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="container">
+
+
+<div class="main">
+
+
+<h2>Dashboard</h2>
+
+<br>
+
+
+
+<div class="stats">
+
+
+<div class="card stat">
+
+<h3>Available Balance</h3>
+
+<h1 id="balance">
+Ksh 0
+</h1>
+
+</div>
+
+
+
+<div class="card stat">
+
+<h3>Total Earned</h3>
+
+<h1 id="earned">
+Ksh 0
+</h1>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>📈 Active Investment</h2>
+
+<br>
+
+<div id="investment">
+
+No active investment
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>📊 Investment Calculator</h2>
+
+<br>
+
+
+<p style="color:#94a3b8">
+
+Calculate estimated returns.
+
+</p>
+
+
+<br>
+
+
+
+<div style="overflow-x:auto">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Investment</th>
+
+<th>Profit / 3 Hrs</th>
+
+<th>Total Profit</th>
+
+<th>Total Return</th>
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="profitTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>📜 Recent Transactions</h2>
+
+
+<br>
+
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Type</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody id="history">
+
+
+<tr>
+
+<td colspan="4">
+
+No transactions yet
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="sidebar" id="sidebar">
+
+
+<h3>MENU</h3>
+
+
+<a class="menu" href="dashboard.html">
+🏠 Dashboard
+</a>
+
+
+<a class="menu" href="invest.html">
+📈 Invest
+</a>
+
+
+<a class="menu" href="wallet.html">
+💳 Wallet
+</a>
+
+
+<a class="menu" href="history.html">
+📜 History
+</a>
+
+
+<a class="menu" href="profile.html">
+👤 Profile
+</a>
+
+
+<a class="menu" href="settings.html">
+⚙️ Settings
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+// MENU
+
+function toggleMenu(){
+
+document
+.getElementById("sidebar")
+.classList.toggle("open");
+
+}
+
+
+
+
+
+// CALCULATOR
+
+
+const PROFIT_RATE = 0.28;
+
+const CYCLES = 24;
+
+
+
+const investmentAmounts=[
+
+750,
+1000,
+1500,
+2000,
+3000,
+5000,
+7500,
+10000,
+15000,
+20000
+
+];
+
+
+
+const table=document.getElementById("profitTable");
+
+
+
+investmentAmounts.forEach(amount=>{
+
+
+const profit=Math.round(amount * PROFIT_RATE);
+
+
+const totalProfit=profit * CYCLES;
+
+
+const totalReturn=amount + totalProfit;
+
+
+
+table.innerHTML += `
+
+
+<tr>
+
+<td>
+Ksh ${amount.toLocaleString()}
+</td>
+
+
+<td class="profit">
+
+Ksh ${profit.toLocaleString()}
+
+</td>
+
+
+<td class="profit">
+
+Ksh ${totalProfit.toLocaleString()}
+
+</td>
+
+
+<td class="profit">
+
+Ksh ${totalReturn.toLocaleString()}
+
+</td>
+
+
+</tr>
+
+
+`;
+
+});
+
+
+
+
+
+
+
+// USER DATA
+
+
+window.onload=()=>{
+
+
+const user = JSON.parse(
+
+localStorage.getItem("user")
+
+) || {
+
+balance:0,
+
+earned:0
+
+};
+
+
+
+document.getElementById("balance").innerHTML =
+
+"Ksh " + (user.balance || 0).toLocaleString();
+
+
+
+document.getElementById("earned").innerHTML =
+
+"Ksh " + (user.earned || 0).toLocaleString();
+
+
+
+};
+
+
+
+
+</script>
+
+
+</body>
+  </html>
