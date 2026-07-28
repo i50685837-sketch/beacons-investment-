@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beacons Investment</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1800&q=80") center center/cover no-repeat fixed;
+    position:relative;
+}
+
+/* Dark overlay */
+body::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.55);
+}
+
+/* Animated water effect */
+.water{
+    position:absolute;
+    inset:0;
+    background:url("https://i.imgur.com/Al6n6Qp.png");
+    opacity:.08;
+    animation:wave 15s linear infinite;
+}
+
+@keyframes wave{
+    from{
+        background-position:0 0;
+    }
+    to{
+        background-position:1200px 300px;
+    }
+}
+
+.card{
+    position:relative;
+    z-index:1;
+    width:90%;
+    max-width:760px;
+    text-align:center;
+    padding:50px 35px;
+
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:25px;
+
+    box-shadow:0 0 40px rgba(0,255,255,.3);
+}
+
+.logo{
+    font-size:75px;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.15);
+    }
+}
+
+h1{
+    margin-top:10px;
+    color:#00e5ff;
+    font-size:48px;
+    text-shadow:0 0 15px #00e5ff;
+}
+
+p{
+    margin-top:25px;
+    color:white;
+    font-size:28px;
+    line-height:1.6;
+    font-weight:bold;
+}
+
+span{
+    color:#00ff88;
+    text-shadow:0 0 15px #00ff88;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:40px;
+    padding:18px 60px;
+    background:linear-gradient(90deg,#00d4ff,#00ff88);
+    color:#000;
+    text-decoration:none;
+    font-size:20px;
+    font-weight:bold;
+    border-radius:50px;
+    transition:.3s;
+    box-shadow:0 0 25px #00d4ff;
+}
+
+.btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 40px #00ff88;
+}
+
+.contact{
+    margin-top:45px;
+    color:white;
+    font-size:18px;
+}
+
+.contact a{
+    color:#00e5ff;
+    text-decoration:none;
+}
+
+footer{
+    margin-top:25px;
+    color:#ddd;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+
+h1{
+font-size:36px;
+}
+
+p{
+font-size:22px;
+}
+
+.btn{
+width:100%;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="water"></div>
+
+<div class="card">
+
+<div class="logo">🚨</div>
+
+<h1>Beacons Investment</h1>
+
+<p>
+Start investing from
+<span>KSh 750</span><br>
+Grow your investment journey with<br>
+<span>Beacons Investment</span>
+</p>
+
+<a href="register.html" class="btn">
+Get Started
+</a>
+
+<div class="contact">
+<h3>Contact Us</h3>
+📧 <a href="mailto:beacons@gmail.com">beacons@gmail.com</a>
+</div>
+
+<footer>
+© 2026 Beacons Investment. All Rights Reserved.
+</footer>
+
+</div>
+
+</body>
+  </html>
